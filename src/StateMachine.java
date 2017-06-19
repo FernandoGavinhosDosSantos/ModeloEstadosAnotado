@@ -55,6 +55,7 @@ public class StateMachine {
 			int index = (horizon > 0 ? nodes[i].length() - horizon : 0);
 			String nextNode = nodes[i].substring((index > 0 ? index : 0));
 			
+			//PAREI AQUI!!!!!¹²³
 			if(representation == SET_REPRESENTATION){
 				String[] aNextNode = nextNode.split("");
 				Arrays.sort(aNextNode);
