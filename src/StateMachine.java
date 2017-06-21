@@ -1,3 +1,4 @@
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -29,7 +30,7 @@ public class StateMachine {
 	 * @param horizon 0=infinite
 	 */
 	public void BuildStateMachine(String path, int representation, int horizon){
-
+		
 		String[] nodes = path.split(" ");
 		boolean newPoint = true;
 		State startingPoint = null;
@@ -55,7 +56,6 @@ public class StateMachine {
 			int index = (horizon > 0 ? nodes[i].length() - horizon : 0);
 			String nextNode = nodes[i].substring((index > 0 ? index : 0));
 			
-			//PAREI AQUI!!!!!¹²³
 			if(representation == SET_REPRESENTATION){
 				String[] aNextNode = nextNode.split("");
 				Arrays.sort(aNextNode);
