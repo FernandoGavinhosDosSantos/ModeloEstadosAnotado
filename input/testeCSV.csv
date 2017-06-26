@@ -1,0 +1,12 @@
+﻿id,status,responsável,horário
+1,aberto,Fernando,2017-02-09 10:50
+1,tr1,Fernando,2017-02-09 11:32
+2,aberto,Mariana,2017-02-09 11:37
+1,tr2,Mariana,2017-02-09 12:01
+2,tr1,Mariana,2017-02-09 17:56
+3,aberto,Fernando,2017-02-09 17:56
+1,encerrado,Mariana,2017-02-09 18:57
+2,tr2,Mariana,2017-02-09 19:01
+2,tr3,Fernando,2017-02-09 19:17
+2,encerrado,Fernando,2017-02-09 19:22
+3,encerrado,Fernando,2017-02-09 19:24
