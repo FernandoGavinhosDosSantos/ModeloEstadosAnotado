@@ -20,7 +20,7 @@ public class CSVReader {
 			
 			while ((line = br.readLine()) != null) {
 
-				// use comma as separator
+				//use comma as separator
 				String[] eventLog = line.split(",");
 				
 				//add state

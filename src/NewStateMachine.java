@@ -6,8 +6,8 @@ public class NewStateMachine {
 	private final int SET_REPRESENTATION = 1;
 	private final int SEQUENCE_REPRESENTATION = 2;
 	private final int MULTISET_REPRESENTATION = 3;
-	private final String[] STATE_ID= {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"};
-	private int freeStateId = 0;
+	//private final String[] STATE_ID= {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"};
+	private int freeStateId = 1;
 
 	public NewStateMachine() {
 
@@ -63,7 +63,8 @@ public class NewStateMachine {
 		NewState st = FindStateByStatus(status);
 
 		if(st == null){
-			st = new NewState(STATE_ID[freeStateId], status);
+			//st = new NewState(STATE_ID[freeStateId], status);
+			st = new NewState("" + freeStateId, status);
 			freeStateId++;
 			this.stateList.add(st);
 		}
@@ -85,6 +86,23 @@ public class NewStateMachine {
 			this.instanceList.add(new ProcessInstance(id, teste.name, timestamp));
 		}
 	}
+	
+	public String StateName(String path, int horizon){
+		
+		if (horizon == 0) return path;
+		
+		int cont = 0;
+		for (int i = path.length() - 1; i > 0; i--){
+			
+			if (path.charAt(i) == '_') cont++;
+			if (cont == horizon){
+				String resp = path.substring(i + 1);
+				return resp;
+			}
+		}
+		
+		return "";
+	}
 
 	public void BuildStateMachine(String path, ArrayList<Long> timestampList, int representation, int horizon){
 
@@ -95,24 +113,25 @@ public class NewStateMachine {
 
 			long delay = (timestampList.get(i) - timestampList.get(i - 1));
 
-			nodes[i] = nodes[i - 1] + nodes[i];
-			int index = (horizon > 0 ? nodes[i].length() - horizon : 0);
-			String nextNode = nodes[i].substring((index > 0 ? index : 0));
+			nodes[i] = nodes[i - 1] + "_" + nodes[i];
+			//int index = (horizon > 0 ? nodes[i].length() - horizon : 0);
+			//String nextNode = nodes[i].substring((index > 0 ? index : 0));
+			String nextNode = StateName(nodes[i], horizon);
 
 			if(representation == SET_REPRESENTATION){
-				String[] aNextNode = nextNode.split("");
+				String[] aNextNode = nextNode.split("_");
 				Arrays.sort(aNextNode);
 
 				nextNode = aNextNode[0];
 				for (int j = 1; j < aNextNode.length; j++){
-					if (!aNextNode[j].equals(aNextNode[j - 1])) nextNode += aNextNode[j];
+					if (!aNextNode[j].equals(aNextNode[j - 1])) nextNode += "_" + aNextNode[j];
 				}
 			}
 
 			AnnotatedTransition target = currentNode.TransitionsTo(nextNode);
 			if(target == null){
 				NewState newTarget = FindStateByName(nextNode);
-				if (newTarget == null) newTarget = AddState(nextNode, currentNode.status + "_" + FindStateByName(nextNode.substring(nextNode.length() - 1)).status);
+				if (newTarget == null) newTarget = AddState(nextNode, currentNode.status + "_" + FindStateByName(StateName(nextNode, 1)).status);
 				target = currentNode.AddTransition(newTarget, delay);
 			}
 			else target.addOccurrence(delay);
@@ -138,7 +157,7 @@ public class NewStateMachine {
 		}
 
 		for (NewState s : this.stateList){
-			if (s.name.length() == 1) System.out.println("Estado '" + s.name + "' (" + s.status + ") ");
+			if (!s.name.contains("_")) System.out.println("State '" + s.name + "' (" + s.status + ") ");
 		}
 	}
 

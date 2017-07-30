@@ -1,3 +1,4 @@
+package teste;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,6 +21,20 @@ public class StateMachine {
 		State newState = new State(target);
 		this.stateList.add(newState);
 		return newState;
+	}
+	
+	public String StateName(String path, int horizon){
+		
+		if (horizon == 0) return path;
+		
+		int cont = 0;
+		for (int i = path.length() - 1; i > 0; i--){
+			
+			if (path.charAt(i) == '_') cont++;
+			if (cont == horizon) return path.substring(i + 1, path.length() - 1);
+		}
+		
+		return "";
 	}
 
 	/**
@@ -52,17 +67,16 @@ public class StateMachine {
 
 		for (int i = 1; i < nodes.length; i++){
 
-			nodes[i] = nodes[i - 1] + nodes[i];
-			int index = (horizon > 0 ? nodes[i].length() - horizon : 0);
-			String nextNode = nodes[i].substring((index > 0 ? index : 0));
+			nodes[i] = nodes[i - 1] + "_" + nodes[i];
+			String nextNode = StateName(nodes[i], horizon);
 			
 			if(representation == SET_REPRESENTATION){
-				String[] aNextNode = nextNode.split("");
+				String[] aNextNode = nextNode.split("_");
 				Arrays.sort(aNextNode);
 				
 				nextNode = aNextNode[0];
 				for (int j = 1; j < aNextNode.length; j++){
-					if (!aNextNode[j].equals(aNextNode[j - 1])) nextNode += aNextNode[j];
+					if (!aNextNode[j].equals(aNextNode[j - 1])) nextNode += "_" + aNextNode[j];
 				}
 			}
 
