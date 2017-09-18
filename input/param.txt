@@ -1,4 +1,4 @@
-C:/Users/s_fer/Desktop/TCC/input/testeCSV.csv
+input/testeCSV.csv
 0 3
 1 2
 0 1

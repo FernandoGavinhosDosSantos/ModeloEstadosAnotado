@@ -5,7 +5,7 @@ public class Main {
 	
 	public static void main(String[] args) {
 
-		readInputTXT("C:/Users/s_fer/Desktop/TCC/input/param.txt");
+		readInputTXT("input/param.txt");
 		//readInputTXT(args[0]);
 	}
 
