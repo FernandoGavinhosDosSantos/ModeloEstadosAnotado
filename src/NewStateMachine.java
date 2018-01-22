@@ -1,12 +1,12 @@
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
 
 public class NewStateMachine {
 
 	private final int SET_REPRESENTATION = 1;
 	private final int SEQUENCE_REPRESENTATION = 2;
 	private final int MULTISET_REPRESENTATION = 3;
+	//private final String[] STATE_ID= {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"};
 	private int freeStateId = 1;
 
 	public NewStateMachine() {
@@ -104,18 +104,19 @@ public class NewStateMachine {
 		return "";
 	}
 
-	public void BuildStateMachine(LinkedList<String> path, ArrayList<Long> timestampList, int representation, int horizon){
+	public void BuildStateMachine(String path, ArrayList<Long> timestampList, int representation, int horizon){
 
-		NewState currentNode = FindStateByName(path.getFirst());
+		String[] nodes = path.split(" ");
+		NewState currentNode = FindStateByName(nodes[0]);
 
-		for (int i = 1; i < path.size(); i++){
+		for (int i = 1; i < nodes.length; i++){
 
 			long delay = (timestampList.get(i) - timestampList.get(i - 1));
 
-			path.set(i, path.get(i - 1) + "_" + path.get(i));
+			nodes[i] = nodes[i - 1] + "_" + nodes[i];
 			//int index = (horizon > 0 ? nodes[i].length() - horizon : 0);
 			//String nextNode = nodes[i].substring((index > 0 ? index : 0));
-			String nextNode = StateName(path.get(i), horizon);
+			String nextNode = StateName(nodes[i], horizon);
 
 			if(representation == SET_REPRESENTATION){
 				String[] aNextNode = nextNode.split("_");
